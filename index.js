@@ -81,6 +81,7 @@ const saveCache = async ({cacheKey}) => {
 const parseConfiguration = () => {
     const configuration = {
         verbose: core.getInput("verbose") === "true",
+        usexcFrameworks: core.getInput("use-xcframeworks") === "true",
         noUseBinaries: core.getInput("no-use-binaries") === "true",
         platform: core.getInput("platform"),
         cache: core.getInput("cache") === "true", // TODO cache=true should be a default
@@ -101,6 +102,10 @@ const carthageBootstrap = async ({platform, noUseBinaries, verbose, gitHubToken}
     }
     if (noUseBinaries === "true") {
         options = [...options, "--no-use-binaries"];
+    }
+
+    if (usexcFrameworks == "true") {
+        options = [...options, "--use-xcframeworks"];
     }
 
     const carthage = execa("carthage", ["bootstrap", ...options],

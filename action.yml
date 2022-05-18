@@ -36,6 +36,10 @@ inputs:
   no-use-binaries:
     description: "Do not use downloaded binaries when possible."
     required: false
+  use-xcframeworks: 
+    description: "the option to use xcframeworks for M1 builds defaults to true"
+    required: false
+    default: true
 
   cache:
     description: "Cache the Carthage directory."
