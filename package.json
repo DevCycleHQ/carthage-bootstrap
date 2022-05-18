@@ -1,7 +1,10 @@
 {
   "name": "carthage-bootstrap",
   "version": "1.1.0",
+<<<<<<< HEAD
   "packageManager": "yarn@3.6.3",
+=======
+>>>>>>> f879b42 (update the sction to use xcframeworks)
   "description": "GitHub Action that runs Carthage Bootstrap",
   "main": "index.js",
   "scripts": {
