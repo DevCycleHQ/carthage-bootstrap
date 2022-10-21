@@ -92,21 +92,19 @@ const parseConfiguration = () => {
 };
 
 
-const carthageBootstrap = async ({platform, noUseBinaries, verbose, gitHubToken}) => {
+const carthageBootstrap = async ({platform, noUseBinaries, verbose, gitHubToken, usexcFrameworks}) => {
     let options = [];
     if (platform !== "") {
         options = [...options, "--platform", platform];
     }
-    if (verbose === "true") {
+    if (verbose) {
         options = [...options, "--verbose"];
     }
-    if (noUseBinaries === "true") {
+    if (noUseBinaries) {
         options = [...options, "--no-use-binaries"];
     }
 
-    if (usexcFrameworks == "true") {
-        options = [...options, "--use-xcframeworks"];
-    }
+    options = [...options, "--use-xcframeworks"];
 
     const carthage = execa("carthage", ["bootstrap", ...options],
                            {reject: false, env: {"NSUnbufferedIO": "YES",
