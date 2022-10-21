@@ -106,6 +106,8 @@ const carthageBootstrap = async ({platform, noUseBinaries, verbose, gitHubToken,
 
     options = [...options, "--use-xcframeworks"];
 
+    console.log("EXECUTING WITH OPTIONS", options)
+
     const carthage = execa("carthage", ["bootstrap", ...options],
                            {reject: false, env: {"NSUnbufferedIO": "YES",
                                                  "GITHUB_ACCESS_TOKEN": gitHubToken}});
