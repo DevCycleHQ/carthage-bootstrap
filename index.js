@@ -104,9 +104,9 @@ const carthageBootstrap = async ({platform, noUseBinaries, verbose, gitHubToken,
         options = [...options, "--no-use-binaries"];
     }
 
-    options = [...options, "--use-xcframeworks"];
-
-    console.log("EXECUTING WITH OPTIONS",)
+    if (usexcFrameworks) {
+        options = [...options, "--use-xcframeworks"];
+    }
 
     const carthage = execa("carthage", ["bootstrap", ...options],
                            {reject: false, env: {"NSUnbufferedIO": "YES",
