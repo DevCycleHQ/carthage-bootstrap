@@ -27,7 +27,7 @@
   "homepage": "https://github.com/devbotsxyz/carthage-bootstrap#readme",
   "dependencies": {
     "@actions/cache": "^1.0.2",
-    "@actions/core": "^1.2.5",
+    "@actions/core": "^1.9.1",
     "execa": "^4.0.3"
   },
   "devDependencies": {
