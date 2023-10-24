@@ -33,6 +33,7 @@ inputs:
   platform:
     description: "The platforms to build for. One of 'all', 'macOS', 'iOS', 'watchOS', 'tvOS', or comma-separated values of the formers except for 'all'."
     required: false
+
   no-use-binaries:
     description: "Do not use downloaded binaries when possible."
     required: false
@@ -41,6 +42,7 @@ inputs:
     description: "Cache the Carthage directory."
     required: false
     default: true
+
   cache-key:
     description: "Key under which to cache the Carthage directory. Will be generated if not specified."
     required: false
@@ -51,7 +53,7 @@ inputs:
     default: false
 
 runs:
-  using: 'node12'
+  using: 'node20'
   main: 'dist/index.js'
   post: 'dist/index.js'
   post-if: 'success()'
