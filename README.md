@@ -12,7 +12,7 @@ The action currently only supports downloading of dependencies through the GitHu
 
 ```yaml
 - name: "Carthage Bootstrap"
-  uses: devbotsxyz/carthage-bootstrap@v1
+  uses: DevCycleHQ/carthage-bootstrap@v1
   with:
     github-token: ${{ secrets.GITHUB_TOKEN }}
 ```
