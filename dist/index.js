@@ -91975,7 +91975,7 @@ const crypto = __nccwpck_require__(6113);
 
 const core = __nccwpck_require__(2186);
 const cache = __nccwpck_require__(7799);
-const execa = __nccwpck_require__(4730);
+const { execa } = __nccwpck_require__(4730);
 
 
 /**
