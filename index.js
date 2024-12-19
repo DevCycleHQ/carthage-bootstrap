@@ -24,7 +24,7 @@ const crypto = require('crypto');
 
 const core = require('@actions/core');
 const cache = require('@actions/cache');
-const execa = require('execa');
+const { execa } = require('execa');
 
 
 /**
