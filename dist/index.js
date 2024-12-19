@@ -85167,28 +85167,21 @@ const carthageBootstrap = async ({platform, noUseBinaries, verbose, gitHubToken,
     }
 };
 
-const findExecutable = async (command) => {
-    try {
-        const { stdout } = await execa('which', [command]);
-        return stdout.trim();
-    } catch(_) {
-        return null;
-    }
-};
-
 const main = async () => {
-    const carthagePath = await findExecutable('carthage');
-    if (!carthagePath) {
-        core.setFailed('Cannot find carthage command in PATH. Please ensure carthage is installed and available.');
-        return;
-    }
-
-    if (!fs.existsSync("Cartfile") || !fs.existsSync("Cartfile.resolved")) {
-        core.setFailed(`Cannot find Cartfile and Cartfile.resolved in the working directory.`);
-        return;
-    }
-
     try {
+        const whichResult = await execa('which', ['carthage'], { reject: false });
+        if (whichResult.exitCode !== 0 && 
+            !fs.existsSync("/usr/local/bin/carthage") && 
+            !fs.existsSync("/opt/homebrew/bin/carthage")) {
+            core.setFailed(`Cannot find carthage command in PATH or standard locations. which result: ${JSON.stringify(whichResult)}`);
+            return;
+        }
+
+        if (!fs.existsSync("Cartfile") || !fs.existsSync("Cartfile.resolved")) {
+            core.setFailed(`Cannot find Cartfile and Cartfile.resolved in the working directory.`);
+            return;
+        }
+
         const configuration = parseConfiguration();
 
         // If caching is enabled and we have a cached Carthage
