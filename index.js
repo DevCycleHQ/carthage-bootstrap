@@ -123,11 +123,9 @@ const carthageBootstrap = async ({platform, noUseBinaries, verbose, gitHubToken,
 
 const main = async () => {
     try {
-        const whichResult = await execa('which', ['carthage'], { reject: false });
-        if (whichResult.exitCode !== 0 && 
-            !fs.existsSync("/usr/local/bin/carthage") && 
+        if (!fs.existsSync("/usr/local/bin/carthage") && 
             !fs.existsSync("/opt/homebrew/bin/carthage")) {
-            core.setFailed(`Cannot find carthage command in PATH or standard locations. which result: ${JSON.stringify(whichResult)}`);
+            core.setFailed(`Cannot find carthage command in PATH or standard locations.`);
             return;
         }
 
