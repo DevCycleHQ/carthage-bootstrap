@@ -121,11 +121,19 @@ const carthageBootstrap = async ({platform, noUseBinaries, verbose, gitHubToken,
     }
 };
 
+const findExecutable = async (command) => {
+    try {
+        const { stdout } = await execa('which', [command]);
+        return stdout.trim();
+    } catch(_) {
+        return null;
+    }
+};
 
 const main = async () => {
-    // TODO Better to look in PATH
-    if (!fs.existsSync("/usr/local/bin/carthage")) {
-        core.setFailed(`Cannot find carthage command in /usr/local/bin/carthage.`);
+    const carthagePath = await findExecutable('carthage');
+    if (!carthagePath) {
+        core.setFailed('Cannot find carthage command in PATH. Please ensure carthage is installed and available.');
         return;
     }
 
