@@ -24,7 +24,7 @@ const crypto = require('crypto');
 
 const core = require('@actions/core');
 const cache = require('@actions/cache');
-const execa = require('execa');
+const { execa } = require('execa');
 
 
 /**
@@ -42,9 +42,14 @@ const execa = require('execa');
 
 const generateCacheKey = async () => {
     const resolved = fs.readFileSync("Cartfile.resolved");
-    const {stdout} = await execa('xcodebuild', ['-version']);
-    const hash = crypto.createHash('sha1').update(resolved+stdout).digest('hex');
-    return `devbotsxyz:carthage:${process.env.GITHUB_REPOSITORY}:${hash}`;
+    try {
+        const {stdout} = await execa('xcodebuild', ['-version']);
+        const hash = crypto.createHash('sha1').update(resolved+stdout).digest('hex');
+        return `devbotsxyz:carthage:${process.env.GITHUB_REPOSITORY}:${hash}`;
+    } catch (error) {
+        core.error(`Failed to get Xcode version: ${error.message}`);
+        throw error;
+    }
 };
 
 
@@ -108,26 +113,24 @@ const carthageBootstrap = async ({platform, noUseBinaries, verbose, gitHubToken,
         options = [...options, "--use-xcframeworks"];
     }
 
-    const carthage = execa("carthage", ["bootstrap", ...options],
-                           {reject: false, env: {"NSUnbufferedIO": "YES",
-                                                 "GITHUB_ACCESS_TOKEN": gitHubToken}});
-
-    carthage.stdout.pipe(process.stdout);
-    carthage.stderr.pipe(process.stderr);
-
-    let {exitCode} = await carthage;
-    if (exitCode != 0) {
-        throw Error(`Carthage bootstrap failed with exit code ${exitCode}`);
+    try {
+        await execa("carthage", ["bootstrap", ...options], {
+            env: {
+                "NSUnbufferedIO": "YES",
+                "GITHUB_ACCESS_TOKEN": gitHubToken
+            },
+            stdio: 'inherit'
+        });
+    } catch (error) {
+        throw Error(`Carthage bootstrap failed with exit code ${error.exitCode}`);
     }
 };
 
 const main = async () => {
     try {
-        const whichResult = await execa('which', ['carthage'], { reject: false });
-        if (whichResult.exitCode !== 0 && 
-            !fs.existsSync("/usr/local/bin/carthage") && 
+        if (!fs.existsSync("/usr/local/bin/carthage") && 
             !fs.existsSync("/opt/homebrew/bin/carthage")) {
-            core.setFailed(`Cannot find carthage command in PATH or standard locations. which result: ${JSON.stringify(whichResult)}`);
+            core.setFailed(`Cannot find carthage command in PATH or standard locations.`);
             return;
         }
 
