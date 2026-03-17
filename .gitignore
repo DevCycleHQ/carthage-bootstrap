@@ -105,3 +105,7 @@ dist
 
 
 .idea/
+
+# Yarn PnP
+.pnp.*
+.yarn/cache/
