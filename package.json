@@ -49,7 +49,7 @@
     "brace-expansion@npm:^1.1.7": "^1.1.13",
     "brace-expansion@npm:^2.0.2": "^2.0.3",
     "picomatch": "^2.3.2",
-    "fast-xml-builder": "^1.1.7",
-    "ip-address": "^10.1.1"
+    "fast-xml-builder": "^1.2.0",
+    "ip-address": "^10.2.0"
   }
 }
