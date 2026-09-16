@@ -109,3 +109,4 @@ dist
 # Yarn PnP
 .pnp.*
 .yarn/cache/
+.worktrees/
